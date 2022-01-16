@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html style="background-color: #0d1117;">
+<head>
+	<!-- Quelques trucs -->
+	<title>Discord WhoIs - Librarie</title>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+	<script src="https://cdn.jsdelivr.net/gh/johan-perso/discordwhois-library/index.js"></script>
+
+	<!-- CSS -->
+	<link href="https://firebasestorage.googleapis.com/v0/b/storage-bf183.appspot.com/o/otherContent%2Fgh-markdown.css?alt=media" rel="stylesheet">
+	<style>
+		body {
+			box-sizing: border-box;
+			min-width: 200px;
+			max-width: 980px;
+			margin: 0 auto;
+			padding: 45px;
+		}
+		::-webkit-scrollbar {
+			width: 8px;
+			height: 8px;
+			cursor: pointer;
+		}
+		::-webkit-scrollbar-thumb {
+			cursor: pointer;
+			background-color: #30353a;
+		}
+	</style>
+</head>
+<body>
+	<article class="markdown-body">
+		<h1><a id="user-content-discord-whois---librairie" class="anchor" href="#discord-whois---librairie" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Discord WhoIs - Librairie</h1>
+		<p><em>inspiré de <a href="https://github.com/eslachance/discord-user-resolver">eslachance/discord-user-resolver</a></em></p>
+		<p>Une librairie, capable d'afficher des informations sur un utilisateur Discord, sans coder quoi que ce soit en JavaScript.</p>
+		<p>Certaines personnes aiment bien changer leur pseudo, mais changer le code de plusieurs sites chaque semaine peut être... long.</p>
+		<h3>
+		<a id="user-content-exemple" class="anchor" href="#exemple" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Exemple</h3>
+		<p>Cette librarie a été faite par : <discord-whois toShow="username,discriminator" discord-id="277825082334773251"></discord-whois></p>
+		<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span>Cette librarie a été faite par : <span class="pl-kos">&lt;</span><span class="pl-ent">discord-whois</span> <span class="pl-c1">toShow</span>="<span class="pl-s">username,discriminator</span>" <span class="pl-c1">discord-id</span>="<span class="pl-s">277825082334773251</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">discord-whois</span><span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">p</span><span class="pl-kos">&gt;</span></pre></div>
+		<h3>
+		<a id="user-content-utilisation" class="anchor" href="#utilisation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Utilisation</h3>
+		<p>C'est simple, rajouter une ligne dans votre balise <code>&lt;head&gt;</code> pour importer la librarie :</p>
+		<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">script</span> <span class="pl-c1">src</span>="https://cdn.jsdelivr.net/gh/johan-perso/discordwhois-library/index.js"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">script</span><span class="pl-kos">&gt;</span></pre></div>
+		<p>Et sur votre page, utiliser la balise <code>&lt;discord-whois&gt;</code> pour afficher des informations :</p>
+		<div class="highlight highlight-text-html-basic"><pre><span class="pl-kos">&lt;</span><span class="pl-ent">discord-whois</span> <span class="pl-c1">toShow</span>="<span class="pl-s">avatar,username,discriminator</span>" <span class="pl-c1">discord-id</span>="<span class="pl-s">277825082334773251</span>"<span class="pl-kos">&gt;</span><span class="pl-kos">&lt;/</span><span class="pl-ent">discord-whois</span><span class="pl-kos">&gt;</span></pre></div>
+		<h3>
+		<a id="user-content-personnalisation" class="anchor" href="#personnalisation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Personnalisation</h3>
+		<p>Dans la balise <code>&lt;discord-whois&gt;</code>, vous pouvez inclure l'attribut <code>discord-id</code> pour spécifier quel utilisateur afficher. L'attribut <code>toShow</code> permet de choisir quoi afficher (<code>avatar</code>,<code>username</code>,<code>discriminator</code>) : vous pouvez également écrire <code>*</code> pour tout afficher, ou ne rien entrer, pour ne rien afficher.</p>
+		<h3>
+		<a id="user-content-classe" class="anchor" href="#classe" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Classe</h3>  
+		<p>Cette librairie n'ajoute aucun CSS, à vous d'ajouter ces différentes classes dans votre style :</p>
+		<ul>
+		<li>
+		<code>discord_whois_error</code> : texte d'erreur, affiché si vous ne spécifier aucun ID dans les attributs de la balise</li>
+		<li>
+		<code>discord_whois_username</code> : texte affichant le pseudo</li>
+		<li>
+		<code>discord_whois_discriminator</code> : texte affichant le tag</li>
+		<li>
+		<code>discord_whois_picture</code> : image affichant la photo de profil</li>
+		</ul>
+		<h3>
+		<a id="user-content-api" class="anchor" href="#api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API</h3>
+		<p>Pour la récupération d'informations, l'API de <a href="https://discord-whois.johanstickman.com" rel="nofollow">Discord WhoIs</a> est utilisé par cette librairie.</p>
+	</article>
+</body>
+</html>
