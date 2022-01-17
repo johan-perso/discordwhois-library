@@ -8,9 +8,9 @@ Certaines personnes aiment bien changer leur pseudo, mais changer le code de plu
 
 ### Exemple
 
-Demo : https://discordwhois-library.johanstickman.com
+Demo : https://discordwhois-library.johanstickman.com/#exemple
 
-### Utilisation
+### Utilisation (HTML)
 
 C'est simple, rajouter une ligne dans votre balise `<head>` pour importer la librarie :
 ```html
@@ -21,6 +21,30 @@ Et sur votre page, utiliser la balise `<discord-whois>` pour afficher des inform
 ```html
 <discord-whois toShow="avatar,username,discriminator" discord-id="277825082334773251"></discord-whois>
 ```
+
+### Utilisation (JavaScript)
+
+*pensez à importer la librairie dans votre balise \`<head>\`*
+
+### Détecter un élément
+
+Malgré que la librairie devrait automatiquement détecter les balises `<discord-whois>`, vous pouvez utiliser la fonction `showDiscord_fromElement(<element>)`, exemple :
+```js
+document.body.innerHTML += `<div id="un_element" toShow="username" discord-id="277825082334773251"></div>`
+var element = document.getElementById("un_element")
+
+showDiscord_fromElement(element)
+```
+
+### Obtenir des informations sur un compte
+
+Vous pouvez obtenir des informations sur un compte Discord, sans l'afficher nul part, en utilisant la fonction `showDiscord(<id du compte>)`, exemple :
+```js
+var discordAccount = await showDiscord("277825082334773251")
+if(!discordAccount.error) console.log(discordAccount.username)
+if(discordAccount.error) console.log(discordAccount.message)
+```
+
 
 ### Personnalisation
 
