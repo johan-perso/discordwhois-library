@@ -1,31 +1,31 @@
 /*
-v1.0.0
+v2.0.0
 https://github.com/johan-perso/discordwhois-library
 */
 
 // Au chargement de la page
 window.onload = () => {
 	// Vérifier pour tout les élements déjà présent
-	document.querySelectorAll("discord-whois").forEach(discord_whois => showDiscord(discord_whois));
+	document.querySelectorAll("discord-whois").forEach(discord_whois => showDiscord_fromElement(discord_whois));
 
 	// Détecter les nouveaux élements sur la page
 	const observer = new MutationObserver(mutations_list => {
 		mutations_list.forEach(mutation => {
 			mutation.addedNodes.forEach(added_node => {
-				if(added_node.tagName && added_node.tagName.toLowerCase() === "discord-whois") showDiscord(added_node);
+				if(added_node.tagName && added_node.tagName.toLowerCase() === "discord-whois") showDiscord_fromElement(added_node);
 			});
 		});
 	});
 	observer.observe(document.body, { subtree: true, childList: true });
 }
 
-// Afficher les infos sur un utilisateur Discord
-async function showDiscord(element){
+// Afficher les infos sur un utilisateur Discord à partir d'un élement
+async function showDiscord_fromElement(element){
 	// Obtenir l'ID
 	var discord_id = element.getAttribute("discord-id");
 
 	// Ne pas continuer si l'utilisateur a déjà été vérifié
-	if(element.getAttribute("alreadyShowed") === "true") return;
+	if(element.getAttribute("finishedLoading") === "true") return;
 
 	// Si il n'y a pas d'identifiant
 	if(!discord_id) return element.innerHTML = '<span class="discord_whois_error">Erreur : Aucun identifiant Discord spécifié</span>'
@@ -68,4 +68,22 @@ async function showDiscord(element){
 
 		// Modifier l'élement par le code HTML préparé
 		element.innerHTML = elementHTML
+
+		// Ajouter un attribut
+		element.setAttribute("finishedLoading", true);
+}
+
+// Afficher les infos sur un utilisateur Discord à partir de son ID
+async function showDiscord_fromId(discord_id){
+	// Si il n'y a pas d'identifiant
+	if(!discord_id) return { error: true, message: "Aucun identifiant n'a été donné" }
+
+	// Sinon, faire une requête à l'API de Discord WhoIs pour obtenir les infos
+	var discordInfo = await fetch(`https://discord-whois.johanstickman.com/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
+
+	// Si aucune information sur la personne n'a été trouvée
+	if(!discordInfo?.advancedInfo?.id) return { error: true, message: "Aucun compte trouvé avec cet ID" }
+
+	// Retourner les informations sur le profil
+	return { error: false, account: discordInfo.advancedInfo }
 }
