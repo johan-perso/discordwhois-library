@@ -1,10 +1,10 @@
 /*
-v2.0.0
+v2.1.0
 https://github.com/johan-perso/discordwhois-library
 */
 
 // Au chargement de la page
-window.onload = () => {
+window.addEventListener('load', () => {
 	// Vérifier pour tout les élements déjà présent
 	document.querySelectorAll("discord-whois").forEach(discord_whois => showDiscord_fromElement(discord_whois));
 
@@ -17,7 +17,7 @@ window.onload = () => {
 		});
 	});
 	observer.observe(document.body, { subtree: true, childList: true });
-}
+})
 
 // Afficher les infos sur un utilisateur Discord à partir d'un élement
 async function showDiscord_fromElement(element){
