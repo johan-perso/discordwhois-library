@@ -31,7 +31,7 @@ async function showDiscord_fromElement(element){
 	if(!discord_id) return element.innerHTML = '<span class="discord_whois_error">Erreur : Aucun identifiant Discord spécifié</span>'
 
 	// Sinon, faire une requête à l'API de Discord WhoIs pour obtenir les infos
-	var discordInfo = await fetch(`https://discord-whois.johanstickman.com/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
+	var discordInfo = await fetch(`https://discord-whois.johanstick.me/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
 
 	// Si aucune information sur la personne n'a été trouvée
 	if(!discordInfo?.advancedInfo?.id) return element.innerHTML = '<span class="discord_whois_error">Erreur : Aucun compte trouvé</span>'
@@ -79,7 +79,7 @@ async function showDiscord_fromId(discord_id){
 	if(!discord_id) return { error: true, message: "Aucun identifiant n'a été donné" }
 
 	// Sinon, faire une requête à l'API de Discord WhoIs pour obtenir les infos
-	var discordInfo = await fetch(`https://discord-whois.johanstickman.com/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
+	var discordInfo = await fetch(`https://discord-whois.johanstick.me/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
 
 	// Si aucune information sur la personne n'a été trouvée
 	if(!discordInfo?.advancedInfo?.id) return { error: true, message: "Aucun compte trouvé avec cet ID" }
