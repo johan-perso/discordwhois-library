@@ -14,12 +14,12 @@ Demo : https://discordwhois-library.johanstick.me/#exemple
 
 C'est simple, rajouter une ligne dans votre balise `<head>` pour importer la librarie :
 ```html
-<script src="https://cdn.jsdelivr.net/gh/johan-perso/discordwhois-library@2.1.0/index.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/johan-perso/discordwhois-library@latest/index.js"></script>
 ```
 
 Et sur votre page, utiliser la balise `<discord-whois>` pour afficher des informations :
 ```html
-<discord-whois toShow="avatar,username,discriminator" discord-id="277825082334773251"></discord-whois>
+<discord-whois toShow="avatar,username,display_name" discord-id="277825082334773251"></discord-whois>
 ```
 
 ### Utilisation (JavaScript)
@@ -48,15 +48,15 @@ if(discordAccount.error) console.log(discordAccount.message)
 
 ### Personnalisation
 
-Dans la balise `<discord-whois>`, vous pouvez inclure l'attribut `discord-id` pour spécifier quel utilisateur afficher. L'attribut `toShow` permet de choisir quoi afficher (`avatar`,`username`,`discriminator`) : vous pouvez également écrire `*` pour tout afficher, ou ne rien entrer, pour ne rien afficher.
+Dans la balise `<discord-whois>`, vous pouvez inclure l'attribut `discord-id` pour spécifier quel utilisateur afficher. L'attribut `toShow` permet de choisir quoi afficher (`avatar`,`username`,`display_name`) : vous pouvez également écrire `*` pour tout afficher, ou ne rien entrer, pour ne rien afficher.
 
 ### Classe
 
-Cette librairie n'ajoute aucun CSS, à vous d'ajouter ces différentes classes dans votre style :
+Cette librairie n'ajoute aucun CSS, c'est à vous d'ajouter ces différentes classes dans votre style :
 
 * `discord_whois_error` : texte d'erreur, affiché si vous ne spécifier aucun ID dans les attributs de la balise
-* `discord_whois_username` : texte affichant le pseudo
-* `discord_whois_discriminator` : texte affichant le tag
+* `discord_whois_username` : texte affichant le pseudo (commençant par un `@`)
+* `discord_whois_displayName` : texte affichant le nom d'utilisateur
 * `discord_whois_picture` : image affichant la photo de profil
 
 ### API
