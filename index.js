@@ -1,5 +1,5 @@
 /*
-v2.1.0
+v3.0.0
 https://github.com/johan-perso/discordwhois-library
 */
 
@@ -31,7 +31,7 @@ async function showDiscord_fromElement(element){
 	if(!discord_id) return element.innerHTML = '<span class="discord_whois_error">Erreur : Aucun identifiant Discord spécifié</span>'
 
 	// Sinon, faire une requête à l'API de Discord WhoIs pour obtenir les infos
-	var discordInfo = await fetch(`https://discord-whois.johanstick.me/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
+	var discordInfo = await fetch(`https://discord-whois.vercel.app/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
 
 	// Si aucune information sur la personne n'a été trouvée
 	if(!discordInfo?.advancedInfo?.id) return element.innerHTML = '<span class="discord_whois_error">Erreur : Aucun compte trouvé</span>'
@@ -42,29 +42,29 @@ async function showDiscord_fromElement(element){
 	element.setAttribute("discord-banner", discordInfo.advancedInfo.banner);
 	element.setAttribute("discord-bot", discordInfo.advancedInfo.bot);
 	element.setAttribute("discord-created_at", discordInfo.advancedInfo.created_at);
-	element.setAttribute("discord-discriminator", discordInfo.advancedInfo.discriminator);
 	element.setAttribute("discord-username", discordInfo.advancedInfo.username);
+	element.setAttribute("discord-display_name", discordInfo.advancedInfo.display_name);
 
 	// Obtenir les éléments à afficher sous forme d'array
 	var toShow = element?.getAttribute("toShow")?.split(",");
 
 	// Si la liste des attributs contient "*", la remplacer par... tout
 	if(toShow?.includes("*")){
-		toShow = ['avatar','discriminator','username']
+		toShow = ['avatar','username','display_name']
 		element.setAttribute("toShow", toShow);
 	}
 
 	// Sinon, afficher des informations
 		// Préparer l'élement
-		var elementHTML = `%AVATAR%%USERNAME%%DISCRIMINATOR%`
+		var elementHTML = `%AVATAR%%USERNAME%%DISPLAY_NAME%`
 
 		// Le modifier en fonction des choses à afficher
-		if(toShow?.includes("username")) elementHTML = elementHTML.replace(/%USERNAME%/g, `<span class="discord_whois_username">${discordInfo?.advancedInfo?.username?.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>`)
-		if(toShow?.includes("discriminator")) elementHTML = elementHTML.replace(/%DISCRIMINATOR%/g, `<span class="discord_whois_discriminator">#${discordInfo?.advancedInfo?.discriminator?.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>`)
+		if(toShow?.includes("username")) elementHTML = elementHTML.replace(/%USERNAME%/g, `<span class="discord_whois_username">@${discordInfo?.advancedInfo?.username?.replace(/</g, "&lt;").replace(/>/g, "&gt;")}${discordInfo?.advancedInfo?.discriminator != '0' ? '#' + discordInfo?.advancedInfo?.discriminator : ''}</span>`)
+		if(toShow?.includes("display_name")) elementHTML = elementHTML.replace(/%DISPLAY_NAME%/g, `<span class="discord_whois_displayName">${discordInfo?.advancedInfo?.display_name?.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>`)
 		if(toShow?.includes("avatar")) elementHTML = elementHTML.replace(/%AVATAR%/g, `<img class="discord_whois_picture" src="${discordInfo?.advancedInfo.avatar_url}">`)
 
 		// Enlever tout ce qui est inutile
-		elementHTML = elementHTML.replace(/%AVATAR%/g, "").replace(/%USERNAME%/g, "").replace(/%DISCRIMINATOR%/g, "")
+		elementHTML = elementHTML.replace(/%AVATAR%/g, "").replace(/%USERNAME%/g, "").replace(/%DISPLAY_NAME%/g, "")
 
 		// Modifier l'élement par le code HTML préparé
 		element.innerHTML = elementHTML
@@ -79,7 +79,7 @@ async function showDiscord_fromId(discord_id){
 	if(!discord_id) return { error: true, message: "Aucun identifiant n'a été donné" }
 
 	// Sinon, faire une requête à l'API de Discord WhoIs pour obtenir les infos
-	var discordInfo = await fetch(`https://discord-whois.johanstick.me/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
+	var discordInfo = await fetch(`https://discord-whois.vercel.app/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
 
 	// Si aucune information sur la personne n'a été trouvée
 	if(!discordInfo?.advancedInfo?.id) return { error: true, message: "Aucun compte trouvé avec cet ID" }
