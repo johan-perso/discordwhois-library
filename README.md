@@ -8,7 +8,7 @@ Certaines personnes aiment bien changer leur pseudo, mais changer le code de plu
 
 ### Exemple
 
-Demo : https://discordwhois-library.johanstick.me/#exemple
+Demo : https://discordwhois-library.johanstick.fr/#exemple
 
 ### Utilisation (HTML)
 
@@ -61,8 +61,8 @@ Cette librairie n'ajoute aucun CSS, c'est à vous d'ajouter ces différentes cla
 
 ### API
 
-Pour la récupération d'informations, l'API de [Discord WhoIs](https://discord-whois.johanstick.me) est utilisé par cette librairie.
+Pour la récupération d'informations, l'API de [Discord WhoIs](https://discord-whois.johanstick.fr) est utilisé par cette librairie.
 
 ## Licence
 
-MIT © [Johan](https://johanstick.me)
+MIT © [Johan](https://johanstick.fr)
