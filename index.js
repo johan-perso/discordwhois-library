@@ -3,26 +3,21 @@ v3.0.0
 https://github.com/johan-perso/discordwhois-library
 */
 
-// Au chargement de la page
-window.addEventListener('load', () => {
-	// Vérifier pour tout les élements déjà présent
-	document.querySelectorAll("discord-whois").forEach(discord_whois => showDiscord_fromElement(discord_whois));
+// Créer un élément HTML pour afficher les informations sur un utilisateur Discord
+class DiscordWhois extends HTMLElement {
+	constructor() {
+		super();
+	}
 
-	// Détecter les nouveaux élements sur la page
-	const observer = new MutationObserver(mutations_list => {
-		mutations_list.forEach(mutation => {
-			mutation.addedNodes.forEach(added_node => {
-				if(added_node.tagName && added_node.tagName.toLowerCase() === "discord-whois") showDiscord_fromElement(added_node);
-			});
-		});
-	});
-	observer.observe(document.body, { subtree: true, childList: true });
-})
+	connectedCallback() {
+		showDiscord_fromElement(this);
+	}
+}
 
 // Afficher les infos sur un utilisateur Discord à partir d'un élement
 async function showDiscord_fromElement(element){
 	// Obtenir l'ID
-	var discord_id = element.getAttribute("discord-id");
+	let discord_id = element.getAttribute("discord-id");
 
 	// Ne pas continuer si l'utilisateur a déjà été vérifié
 	if(element.getAttribute("finishedLoading") === "true") return;
@@ -31,7 +26,7 @@ async function showDiscord_fromElement(element){
 	if(!discord_id) return element.innerHTML = '<span class="discord_whois_error">Erreur : Aucun identifiant Discord spécifié</span>'
 
 	// Sinon, faire une requête à l'API de Discord WhoIs pour obtenir les infos
-	var discordInfo = await fetch(`https://discord-whois.vercel.app/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
+	let discordInfo = await fetch(`https://discord-whois.vercel.app/api/getDiscord?discordId=${discord_id}`).then(res => res.json())
 
 	// Si aucune information sur la personne n'a été trouvée
 	if(!discordInfo?.advancedInfo?.id) return element.innerHTML = '<span class="discord_whois_error">Erreur : Aucun compte trouvé</span>'
@@ -46,7 +41,7 @@ async function showDiscord_fromElement(element){
 	element.setAttribute("discord-display_name", discordInfo.advancedInfo.display_name);
 
 	// Obtenir les éléments à afficher sous forme d'array
-	var toShow = element?.getAttribute("toShow")?.split(",");
+	let toShow = element?.getAttribute("toShow")?.split(",");
 
 	// Si la liste des attributs contient "*", la remplacer par... tout
 	if(toShow?.includes("*")){
@@ -55,22 +50,14 @@ async function showDiscord_fromElement(element){
 	}
 
 	// Sinon, afficher des informations
-		// Préparer l'élement
-		var elementHTML = `%AVATAR%%USERNAME%%DISPLAY_NAME%`
+	element.innerHTML = `
+		${toShow?.includes("username") ? `<span class="discord_whois_username">@${discordInfo?.advancedInfo?.username?.replace(/</g, "&lt;").replace(/>/g, "&gt;")}${discordInfo?.advancedInfo?.discriminator != '0' ? '#' + discordInfo?.advancedInfo?.discriminator : ''}</span>`:``}
+		${toShow?.includes("display_name") ? `<span class="discord_whois_displayName">${discordInfo?.advancedInfo?.display_name?.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>`:``}
+		${toShow?.includes("avatar") ? `<img class="discord_whois_picture" src="${discordInfo?.advancedInfo?.avatar_url}">`:``}
+	`
 
-		// Le modifier en fonction des choses à afficher
-		if(toShow?.includes("username")) elementHTML = elementHTML.replace(/%USERNAME%/g, `<span class="discord_whois_username">@${discordInfo?.advancedInfo?.username?.replace(/</g, "&lt;").replace(/>/g, "&gt;")}${discordInfo?.advancedInfo?.discriminator != '0' ? '#' + discordInfo?.advancedInfo?.discriminator : ''}</span>`)
-		if(toShow?.includes("display_name")) elementHTML = elementHTML.replace(/%DISPLAY_NAME%/g, `<span class="discord_whois_displayName">${discordInfo?.advancedInfo?.display_name?.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</span>`)
-		if(toShow?.includes("avatar")) elementHTML = elementHTML.replace(/%AVATAR%/g, `<img class="discord_whois_picture" src="${discordInfo?.advancedInfo.avatar_url}">`)
-
-		// Enlever tout ce qui est inutile
-		elementHTML = elementHTML.replace(/%AVATAR%/g, "").replace(/%USERNAME%/g, "").replace(/%DISPLAY_NAME%/g, "")
-
-		// Modifier l'élement par le code HTML préparé
-		element.innerHTML = elementHTML
-
-		// Ajouter un attribut
-		element.setAttribute("finishedLoading", true);
+	// Ajouter un attribut
+	element.setAttribute("finishedLoading", true);
 }
 
 // Afficher les infos sur un utilisateur Discord à partir de son ID
@@ -87,3 +74,6 @@ async function showDiscord_fromId(discord_id){
 	// Retourner les informations sur le profil
 	return { error: false, account: discordInfo.advancedInfo }
 }
+
+// Définir l'élément HTML
+customElements.define('discord-whois', DiscordWhois);
